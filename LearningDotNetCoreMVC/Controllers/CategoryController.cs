@@ -45,6 +45,7 @@ namespace LearningDotNetCoreMVC.Controllers
                 {
                     _db.Categories.Remove(category);
                     _db.SaveChanges();
+                    TempData["Success"] = "Category Deleted successfully";
                     return RedirectToAction("Index");
                 }
             }
@@ -58,7 +59,7 @@ namespace LearningDotNetCoreMVC.Controllers
             {
                 _db.Categories.Update(category);
                 _db.SaveChanges();
-
+                TempData["Success"] = "Category updated successfully";
                 return RedirectToAction("Index");
             }
             return NotFound();
@@ -70,6 +71,7 @@ namespace LearningDotNetCoreMVC.Controllers
             {
                 _db.Categories.Add(category);
                 _db.SaveChanges();
+                TempData["Success"] = "Category Created successfully";
                 return RedirectToAction("Index");
             }
             return View(category);
