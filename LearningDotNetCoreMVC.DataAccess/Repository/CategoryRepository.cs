@@ -18,9 +18,4 @@ public class CategoryRepository : BaseRepository<Category> , ICategoryRepository
         _dbset.Update(updatedObject);
         return updatedObject;
     }
-
-    public void Save()
-    {
-        _dbContext.SaveChanges();
-    }
 }

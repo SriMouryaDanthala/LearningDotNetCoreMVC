@@ -7,14 +7,14 @@ namespace LearningDotNetCoreMVC.Controllers
 {
     public class CategoryController : Controller
     {
-        private ICategoryRepository _categoryRepository;
-        public CategoryController(ICategoryRepository dbRepository)
+        private IUnitOfWork _UnitOfWork;
+        public CategoryController(IUnitOfWork _UnitOfWork)
         {
-            _categoryRepository = dbRepository;
+            this._UnitOfWork = _UnitOfWork;
         }
         public IActionResult Index()
         {
-           List<Category> AllCategories = _categoryRepository.GetAll().ToList();
+           List<Category> AllCategories = _UnitOfWork.Category.GetAll().ToList();
 
             return View(AllCategories);
         }
@@ -28,7 +28,7 @@ namespace LearningDotNetCoreMVC.Controllers
         {
             if (id != 0)
             {
-                Category? category = _categoryRepository.Get(x => x.ID == id).FirstOrDefault();
+                Category? category = _UnitOfWork.Category.Get(x => x.ID == id).FirstOrDefault();
                 if (category != null)
                 {
                     return View(category);
@@ -41,11 +41,11 @@ namespace LearningDotNetCoreMVC.Controllers
         {
             if(id != null && id != 0)
             {
-                Category? category = _categoryRepository.Get(x=>x.ID ==id).FirstOrDefault();
+                Category? category = _UnitOfWork.Category.Get(x=>x.ID ==id).FirstOrDefault();
                 if(category != null)
                 {
-                    _categoryRepository.Delete(category);
-                    _categoryRepository.Save();
+                    _UnitOfWork.Category.Delete(category);
+                    _UnitOfWork.Save();
                     TempData["Success"] = "Category Deleted successfully";
                     return RedirectToAction("Index");
                 }
@@ -58,8 +58,8 @@ namespace LearningDotNetCoreMVC.Controllers
         {
             if (category != null)
             {
-                _categoryRepository.Update(category);
-                _categoryRepository.Save();
+                _UnitOfWork.Category.Update(category);
+                _UnitOfWork.Save();
                 TempData["Success"] = "Category updated successfully";
                 return RedirectToAction("Index");
             }
@@ -70,8 +70,8 @@ namespace LearningDotNetCoreMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _categoryRepository.Add(category);
-                _categoryRepository.Save();
+                _UnitOfWork.Category.Add(category);
+                _UnitOfWork.Save();
                 TempData["Success"] = "Category Created successfully";
                 return RedirectToAction("Index");
             }
