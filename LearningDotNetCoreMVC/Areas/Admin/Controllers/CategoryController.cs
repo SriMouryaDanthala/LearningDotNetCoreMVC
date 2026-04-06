@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LearningDotNetCoreMVC.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private IUnitOfWork _UnitOfWork;

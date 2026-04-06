@@ -5,6 +5,7 @@ using ErrorViewModel = LearningDotNetCoreMVC.Models.Models.ErrorViewModel;
 
 namespace LearningDotNetCoreMVC.Controllers;
 
+[Area("Customer")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
