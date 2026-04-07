@@ -1,0 +1,43 @@
+@model Product
+<h1>Edit Product</h1>
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Book name" value="@Model.Name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Author" class="form-label"></label>
+        <input type="text" class="form-control" id="Author" name="Author" placeholder="Enter Author's name" value="@Model.Author">
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="ISBN" class="form-label"></label>
+        <input type="text" class="form-control" id="ISBN" name="ISBN" placeholder="" value="@Model.ISBN">
+        <span asp-validation-for="ISBN" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea class="form-control" id="Description" name="Description" rows="3" placeholder="Add description">@Model.Description</textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input type="number" class="form-control" id="Price" name="Price" min="1"  step="1" value="@Model.Price">
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PriceForFifty" class="form-label"></label>
+        <input asp-for="PriceForFifty" class="form-control" />
+        <span asp-validation-for="PriceForFifty" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="PriceForHundred" class="form-label"></label>
+        <input type="number" class="form-control" id="PriceForHundred" name="PriceForHundred" min="1"  step="1" value="@Model.PriceForHundred">
+        <span asp-validation-for="PriceForHundred" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class="btn btn-secondary" asp-area="Admin" asp-controller="Product" asp-action="Index">
+        Return to Products
+    </a>
+</form>
