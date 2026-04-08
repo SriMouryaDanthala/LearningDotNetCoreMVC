@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LearningDotNetCoreMVC.Models.Models;
 
@@ -32,4 +33,11 @@ public class Product
     
     [DisplayName("Price For Books > 100")]
     public double PriceForHundred { get; set; }
+
+    [DisplayName("Category")]
+    public int CategoryId { get; set; }
+
+    [ForeignKey("CategoryId")]
+    public Category Category { get; set; }
+    
 }

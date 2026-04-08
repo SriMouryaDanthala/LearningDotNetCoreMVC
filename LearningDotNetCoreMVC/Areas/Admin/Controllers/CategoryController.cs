@@ -25,11 +25,11 @@ namespace LearningDotNetCoreMVC.Controllers
             return View();
         }
 
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int Id)
         {
-            if (id != 0)
+            if (Id != 0)
             {
-                Category? category = _UnitOfWork.Category.Get(x => x.ID == id).FirstOrDefault();
+                Category? category = _UnitOfWork.Category.Get(x => x.Id == Id).FirstOrDefault();
                 if (category != null)
                 {
                     return View(category);
@@ -38,11 +38,11 @@ namespace LearningDotNetCoreMVC.Controllers
             return NotFound();
         }
 
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(int? Id)
         {
-            if(id != null && id != 0)
+            if(Id != null && Id != 0)
             {
-                Category? category = _UnitOfWork.Category.Get(x=>x.ID ==id).FirstOrDefault();
+                Category? category = _UnitOfWork.Category.Get(x=>x.Id ==Id).FirstOrDefault();
                 if(category != null)
                 {
                     _UnitOfWork.Category.Delete(category);

@@ -6,7 +6,7 @@ namespace LearningDotNetCoreMVC.Models.Models
     public class Category
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [DisplayName("Category Name")]
