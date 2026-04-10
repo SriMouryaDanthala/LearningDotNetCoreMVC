@@ -28,7 +28,7 @@
             <td>@product.PriceForHundred</td>
             <td>
                 <div class="d-flex gap-2">
-                    <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary text-light flex-fill">
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Upsert" asp-route-id="@product.Id" class="btn btn-primary text-light flex-fill">
                         <i class="bi bi-pencil"></i> Edit
                     </a>
             
@@ -41,6 +41,6 @@
     }
     </tbody>
 </table>
-<a asp-controller="Product" asp-action="Create" class="btn btn-secondary text-light">
+<a asp-controller="Product" asp-action="Upsert" class="btn btn-secondary text-light">
     <i class="bi bi-plus"></i> Create New Product
 </a>

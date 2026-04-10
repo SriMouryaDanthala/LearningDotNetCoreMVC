@@ -1,6 +1,8 @@
 using LearningDotNetCoreMVC.DataAccess.Repository.IRepository;
 using LearningDotNetCoreMVC.Models.Models;
+using LearningDotNetCoreMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LearningDotNetCoreMVC.Areas.Admin.Controllers
 {
@@ -18,49 +20,59 @@ namespace LearningDotNetCoreMVC.Areas.Admin.Controllers
             List<Product> productsList = _unitOfWork.Product.GetAll().ToList();
             return View(productsList);
         }
-
-        public IActionResult Create()
-            
+        
+        /// <summary>
+        /// Upsert here stands for the combo of update and insert combo,
+        /// the idea here is to have a single page for the insert and update functionality.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns a View based on insert/update.</returns>
+        public IActionResult Upsert(int? id)
         {
-            return View();
-        }
-
-        public IActionResult Edit(int Id)
-        {
-            var product = _unitOfWork.Product.Get(x => x.Id == Id).FirstOrDefault();
-            if (product != null)
+            ProductVM productVm = new ProductVM()
             {
-                return View(product);
-            }
-
-            return NotFound();
-        }
-
-        [HttpPost]
-        public IActionResult Create(Product product)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Product.Add(product);
-                _unitOfWork.Save();
-                TempData["Success"] = "Product Created Successfully";
-                return RedirectToAction("Index");
-            }
-            return View(product);
+                Product = id is 0 or null ? new Product() : _unitOfWork.Product.Get(u=>u.Id == id).FirstOrDefault<Product>(),
+                Categories = _unitOfWork.Category.GetAll().Select( u=> new SelectListItem()
+                    {
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    }
+                )
+            };
+            return View(productVm);
         }
         
         [HttpPost]
-        public IActionResult Edit(Product product)
+        public IActionResult Upsert(ProductVM productVm)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Update(product);
-                _unitOfWork.Save();
-                TempData["Success"] = "Product Updated Successfully";
+                if (productVm.Product.Id == 0)
+                {
+                    _unitOfWork.Product.Add(productVm.Product);
+                    _unitOfWork.Save();
+                    TempData["Success"] = "Product Created Successfully";
+                }
+                else
+                {
+                    _unitOfWork.Product.Update(productVm.Product);
+                    _unitOfWork.Save();
+                    TempData["Success"] = "Product Updated Successfully";
+                }
+
                 return RedirectToAction("Index");
             }
-            return View(product);
+            else
+            {
+                productVm.Categories = _unitOfWork.Category.GetAll().Select(u => new SelectListItem()
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
+                return View(productVm);
+            }
         }
+        
 
         public IActionResult Delete(int id)
         {

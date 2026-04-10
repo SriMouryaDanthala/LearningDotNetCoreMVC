@@ -1,0 +1,78 @@
+@model ProductVM
+
+<h1>Create Product</h1>
+
+<form method="post">
+    
+    <input asp-for="Product.Id" class="form-control" type="hidden"/>
+    
+    <div class="mb-3">
+        <label asp-for="Product.Name" class="form-label"></label>
+        <input asp-for="Product.Name" class="form-control" placeholder="Enter Book name"/>
+        <span asp-validation-for="Product.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Product.Author" class="form-label"></label>
+        <input asp-for="Product.Author" class="form-control" placeholder="Enter Author's name"/>
+        <span asp-validation-for="Product.Author" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Product.ISBN" class="form-label"></label>
+        <input asp-for="Product.ISBN" class="form-control"/>
+        <span asp-validation-for="Product.ISBN" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Product.Description" class="form-label"></label>
+        <textarea asp-for="Product.Description" class="form-control" rows="3" placeholder="Add description"></textarea>
+        <span asp-validation-for="Product.Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Product.Price" class="form-label"></label>
+        <input asp-for="Product.Price" class="form-control" min="1" step="1"/>
+        <span asp-validation-for="Product.Price" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Product.PriceForFifty" class="form-label"></label>
+        <input asp-for="Product.PriceForFifty" class="form-control"/>
+        <span asp-validation-for="Product.PriceForFifty" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Product.PriceForHundred" class="form-label"></label>
+        <input asp-for="Product.PriceForHundred" class="form-control" min="1" step="1"/>
+        <span asp-validation-for="Product.PriceForHundred" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Product.CategoryId" class="form-label"></label>
+        <select asp-for="Product.CategoryId" asp-items="Model.Categories" class="form-select border-0 shadow">
+            <option disabled selected>--Select Category--</option>
+        </select>
+        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="Product.ImageUrl" class="form-label"></label>
+        <input asp-for="Product.ImageUrl" class="form-control"/>
+        <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+    </div>
+     
+
+    @if (Model.Product.Id == 0)
+    {
+        <button type="submit" class="btn btn-primary">Create</button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-primary">Update</button>
+    }
+
+    <a class="btn btn-secondary" asp-area="Admin" asp-controller="Product" asp-action="Index">
+        Return to Products
+    </a>
+</form>

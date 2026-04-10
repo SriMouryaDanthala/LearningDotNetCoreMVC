@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace LearningDotNetCoreMVC.Models.Models;
 
@@ -37,7 +38,11 @@ public class Product
     [DisplayName("Category")]
     public int CategoryId { get; set; }
 
+    [ValidateNever]
     [ForeignKey("CategoryId")]
     public Category Category { get; set; }
-    
+
+    [DefaultValue("")]
+    [DisplayName("ImageUrl")]
+    public string ImageUrl { get; set; }
 }
