@@ -16,13 +16,29 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         _dbset = _dbcontext.Set<T>();
     }
 
-    public IEnumerable<T> GetAll()
+    public IEnumerable<T> GetAll(string? relations = null)
     {
-        return _dbset.ToList();
+        IQueryable<T> query = _dbset;
+        if (!string.IsNullOrEmpty(relations))
+        {
+            foreach (var relation in relations.Split(',',StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(relation);
+            }
+        }
+        return query.ToList();
     }
 
-    public IEnumerable<T> Get(Func<T, bool> filter)
+    public IEnumerable<T> Get(Func<T, bool> filter, string? relations = null)
     {
+        IQueryable<T> query = _dbset;
+        if (!string.IsNullOrEmpty(relations))
+        {
+            foreach (var relation in relations.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries))
+            {
+                query.Include(relation);
+            }
+        }
         var queryResults = _dbset.Where(filter);
         return queryResults.ToList();
     }

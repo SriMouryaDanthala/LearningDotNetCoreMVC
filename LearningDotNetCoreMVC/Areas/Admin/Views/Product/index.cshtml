@@ -8,6 +8,7 @@
     <th>Name</th>
     <th>Author</th>
     <th>Description</th>
+    <th>Category</th>
     <th>ISBN</th>
     <th>Price</th>
     <th>Price for 50</th>
@@ -22,6 +23,7 @@
             <td>@product.Name</td>
             <td>@product.Author</td>
             <td>@Html.Raw(product.Description)</td>
+            <td>@product.Category.Name</td>
             <td>@product.ISBN</td>
             <td>@product.Price</td>
             <td>@product.PriceForFifty</td>
