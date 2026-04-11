@@ -10,10 +10,12 @@ namespace LearningDotNetCoreMVC.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(IUnitOfWork _unit)
+        public ProductController(IUnitOfWork _unit, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = _unit;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -43,34 +45,57 @@ namespace LearningDotNetCoreMVC.Areas.Admin.Controllers
         }
         
         [HttpPost]
-        public IActionResult Upsert(ProductVM productVm)
+        public IActionResult Upsert(ProductVM productVm, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
+                string webRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(webRootPath, @"images/product/");
+
+                    if (!string.IsNullOrEmpty(productVm.Product.ImageUrl))
+                    {
+                        // delete the old pic and create a new one.
+                        string oldImagePath = Path.Combine(webRootPath, productVm.Product.ImageUrl.Trim('/'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                    productVm.Product.ImageUrl = @"/images/product/" + fileName;
+                }
+                else
+                {
+                    productVm.Product.ImageUrl = productVm.Product.ImageUrl.Equals(string.Empty) ? string.Empty : productVm.Product.ImageUrl;
+                }
                 if (productVm.Product.Id == 0)
                 {
                     _unitOfWork.Product.Add(productVm.Product);
-                    _unitOfWork.Save();
                     TempData["Success"] = "Product Created Successfully";
                 }
                 else
                 {
                     _unitOfWork.Product.Update(productVm.Product);
-                    _unitOfWork.Save();
                     TempData["Success"] = "Product Updated Successfully";
                 }
-
+                _unitOfWork.Save();
                 return RedirectToAction("Index");
             }
-            else
+            
+            productVm.Categories = _unitOfWork.Category.GetAll().Select(u => new SelectListItem()
             {
-                productVm.Categories = _unitOfWork.Category.GetAll().Select(u => new SelectListItem()
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
-                return View(productVm);
-            }
+                Text = u.Name,
+                Value = u.Id.ToString()
+            });
+            return View(productVm);
+            
         }
         
 

@@ -44,5 +44,6 @@ public class Product
 
     [DefaultValue("")]
     [DisplayName("ImageUrl")]
+    [ValidateNever]
     public string ImageUrl { get; set; }
 }
