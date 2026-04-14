@@ -34,12 +34,12 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         IQueryable<T> query = _dbset;
         if (!string.IsNullOrEmpty(relations))
         {
-            foreach (var relation in relations.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries))
+            foreach (var relation in relations.Split(',',StringSplitOptions.RemoveEmptyEntries))
             {
-                query.Include(relation);
+                query = query.Include(relation);
             }
         }
-        var queryResults = _dbset.Where(filter);
+        var queryResults = query.Where(filter);
         return queryResults.ToList();
     }
 

@@ -1,0 +1,50 @@
+@model Product
+
+<div class="container">
+    <div class="row g-5">
+
+        <!-- Product Image -->
+        <div class="col-md-5">
+            <div style="height:400px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                <img src="@Model.ImageUrl"
+                     style="max-width:100%; max-height:100%; object-fit:contain;">
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-7">
+            <h2 class="mb-3">@Model.Name</h2>
+
+            <h5 class="text-muted mb-3">@Model.Author</h5>
+
+            <span class="badge bg-secondary mb-3">@Model.Category.Name</span>
+
+            <p class="mb-2"><strong>ISBN:</strong> @Model.ISBN</p>
+
+            <hr />
+
+            <!-- Pricing -->
+            <div class="mb-3">
+                <h4 class="text-primary">₹@Model.Price</h4>
+                <p class="mb-1">Price for 50+: <strong>₹@Model.PriceForFifty</strong></p>
+                <p>Price for 100+: <strong>₹@Model.PriceForHundred</strong></p>
+            </div>
+
+            <hr />
+
+            <!-- Description -->
+            <div class="mb-4">
+                <h5>Description</h5>
+                <p>
+                    @Html.Raw(Model.Description)
+                </p>
+            </div>
+
+            <!-- Button -->
+            <button class="btn btn-success btn-lg">
+                Add to Cart
+            </button>
+        </div>
+
+    </div>
+</div>

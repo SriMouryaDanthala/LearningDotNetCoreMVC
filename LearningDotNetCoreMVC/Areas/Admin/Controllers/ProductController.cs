@@ -73,7 +73,7 @@ namespace LearningDotNetCoreMVC.Areas.Admin.Controllers
                 }
                 else
                 {
-                    productVm.Product.ImageUrl = productVm.Product.ImageUrl.Equals(string.Empty) ? string.Empty : productVm.Product.ImageUrl;
+                    productVm.Product.ImageUrl = string.IsNullOrEmpty(productVm.Product.ImageUrl)? string.Empty : productVm.Product.ImageUrl;
                 }
                 if (productVm.Product.Id == 0)
                 {
